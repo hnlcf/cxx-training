@@ -1,0 +1,20 @@
+# Generated from CLion C/C++ Code Style settings
+BasedOnStyle: Mozilla
+AccessModifierOffset: -4
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: AcrossEmptyLines
+AlignOperands: Align
+AlignConsecutiveDeclarations: Consecutive
+AlignEscapedNewlines: Right
+# QualifierAlignment: Left
+AlignConsecutiveMacros: Consecutive
+AlignConsecutiveBitFields: Consecutive
+AlignArrayOfStructures: Right
+AlignTrailingComments: true
+AllowAllArgumentsOnNextLine: false
+ColumnLimit: 100
+IndentWidth: 4
+PointerAlignment: Right
+ReflowComments: false
+TabWidth: 4
+UseTab: Never
