@@ -10,7 +10,8 @@ s_u8 g_physical_mem[MEM_PHYSICAL_SPACE];
  */
 
 s_u64
-s_dram_read64bits(s_u64 p_addr) {
+s_dram_read64bits(s_u64 p_addr)
+{
     if (DEBUG_ENABLE_SRAM_CACHE == 1) {
         // try to load s_u64 from SRAM cache
         // little-endian
@@ -21,7 +22,7 @@ s_dram_read64bits(s_u64 p_addr) {
 
         s_i32 i;
         for (i = 0; i < 8; i++) {
-            val += (((s_u64) g_physical_mem[p_addr + i]) << (i << 3));
+            val += (((s_u64)g_physical_mem[p_addr + i]) << (i << 3));
         }
 
         return val;
@@ -29,7 +30,8 @@ s_dram_read64bits(s_u64 p_addr) {
 }
 
 void
-s_dram_write64bits(s_u64 p_addr, s_u64 data) {
+s_dram_write64bits(s_u64 p_addr, s_u64 data)
+{
     if (DEBUG_ENABLE_SRAM_CACHE == 1) {
         // try to write s_u64 to SRAM cache
         // little-endian
@@ -45,10 +47,11 @@ s_dram_write64bits(s_u64 p_addr, s_u64 data) {
 }
 
 void
-s_dram_read_inst(s_u64 p_addr, s_str_t *buf) {
+s_dram_read_inst(s_u64 p_addr, s_str_t *buf)
+{
     s_i32 i;
     for (i = 0; i < INST_MAX_NUM_STR_LEN; i++) {
-        buf->data[i] = (char) g_physical_mem[p_addr + i];
+        buf->data[i] = (char)g_physical_mem[p_addr + i];
         buf->len++;
 
         if (s_str_is_dynamic(buf)) {
@@ -58,13 +61,14 @@ s_dram_read_inst(s_u64 p_addr, s_str_t *buf) {
 }
 
 void
-s_dram_write_inst(s_u64 p_addr, s_str_t *str) {
+s_dram_write_inst(s_u64 p_addr, s_str_t *str)
+{
     assert(str->len < INST_MAX_NUM_STR_LEN);
 
     s_u64 i;
     for (i = 0; i < INST_MAX_NUM_STR_LEN; i++) {
         if (i < str->len) {
-            g_physical_mem[p_addr + i] = (s_u8) str->data[i];
+            g_physical_mem[p_addr + i] = (s_u8)str->data[i];
         } else {
             g_physical_mem[p_addr + i] = 0;
         }
@@ -72,6 +76,7 @@ s_dram_write_inst(s_u64 p_addr, s_str_t *str) {
 }
 
 s_u64
-s_va2pa(s_u64 v_addr) {
+s_va2pa(s_u64 v_addr)
+{
     return v_addr & (0xffffffffffffffff >> (64 - MEM_MAX_PHYSICAL_PAGE_INDEX));
 }

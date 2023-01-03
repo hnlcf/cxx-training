@@ -1,7 +1,8 @@
 #include <csapp/s_utils.h>
 
 void
-s_print_register(void) {
+s_print_register(void)
+{
     if ((DEBUG_PRINT_VERBOSE_SET & DEBUG_PRINT_REGISTER) == 0x0) {
         return;
     }
@@ -27,7 +28,8 @@ s_print_register(void) {
 }
 
 void
-s_print_stack(void) {
+s_print_stack(void)
+{
     if ((DEBUG_PRINT_VERBOSE_SET & DEBUG_PRINT_STACK) == 0x0) {
         return;
     }
@@ -36,14 +38,14 @@ s_print_stack(void) {
     s_u64 va = g_cpu_reg.rsp + n * 8;
 
     s_u64 *high;
-    high = (s_u64 *) &g_physical_mem[s_va2pa(g_cpu_reg.rsp)];
+    high = (s_u64 *)&g_physical_mem[s_va2pa(g_cpu_reg.rsp)];
     high = &high[n];
 
     s_i32  i;
     s_u64 *ptr;
     for (i = 0; i < 2 * n; ++i) {
-        ptr = (s_u64 *) (high - i);
-        printf("0x%16lx : %16lx", va, (s_u64) *ptr);
+        ptr = (s_u64 *)(high - i);
+        printf("0x%16lx : %16lx", va, (s_u64)*ptr);
 
         if (i == n) {
             printf(" <== rsp");

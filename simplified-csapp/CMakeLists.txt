@@ -1,6 +1,6 @@
-project(simplified-csapp
+project(
+        simplified-csapp
         VERSION 1.0
-        LANGUAGES C CXX
         )
 
 enable_testing()
@@ -11,5 +11,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
             S_DEBUG=1
     )
 endif ()
+
 add_subdirectory(src)
 add_subdirectory(test)

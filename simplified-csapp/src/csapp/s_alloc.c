@@ -1,7 +1,8 @@
 #include <csapp/s_alloc.h>
 
 s_ptr
-s_malloc(s_size size) {
+s_malloc(s_size size)
+{
     if (size) {
         s_ptr mem;
 
@@ -15,7 +16,8 @@ s_malloc(s_size size) {
 }
 
 s_ptr
-s_realloc(s_ptr mem, s_size size) {
+s_realloc(s_ptr mem, s_size size)
+{
     s_ptr new_mem;
 
     if (size) {

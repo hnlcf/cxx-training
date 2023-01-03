@@ -10,10 +10,11 @@ typedef void (*inst_handler_t)(s_inst_operand_t *, s_inst_operand_t *);
  * @return a memory address which is different in different states
  */
 S_LOCAL s_u64
-inst_compute_operand(s_inst_operand_t *od) {
+inst_compute_operand(s_inst_operand_t *od)
+{
     if (od->type == INST_OPD_IMM) {
         // immediate signed number can be negative: convert to bitmap
-        return *(s_u64 *) &od->imm;
+        return *(s_u64 *)&od->imm;
     } else if (od->type == INST_OPD_REG) {
         // default register 1
         return od->reg1;
@@ -26,21 +27,21 @@ inst_compute_operand(s_inst_operand_t *od) {
         if (od->type == INST_OPD_MEM_IMM) {
             vaddr = od->imm;
         } else if (od->type == INST_OPD_MEM_REG1) {
-            vaddr = *((s_u64 *) od->reg1);
+            vaddr = *((s_u64 *)od->reg1);
         } else if (od->type == INST_OPD_MEM_IMM_REG1) {
-            vaddr = od->imm + (*((s_u64 *) od->reg1));
+            vaddr = od->imm + (*((s_u64 *)od->reg1));
         } else if (od->type == INST_OPD_MEM_REG1_REG2) {
-            vaddr = (*((s_u64 *) od->reg1)) + (*((s_u64 *) od->reg2));
+            vaddr = (*((s_u64 *)od->reg1)) + (*((s_u64 *)od->reg2));
         } else if (od->type == INST_OPD_MEM_IMM_REG1_REG2) {
-            vaddr = od->imm + (*((s_u64 *) od->reg1)) + (*((s_u64 *) od->reg2));
+            vaddr = od->imm + (*((s_u64 *)od->reg1)) + (*((s_u64 *)od->reg2));
         } else if (od->type == INST_OPD_MEM_REG2_SCAL) {
-            vaddr = (*((s_u64 *) od->reg2)) * od->scal;
+            vaddr = (*((s_u64 *)od->reg2)) * od->scal;
         } else if (od->type == INST_OPD_MEM_IMM_REG2_SCAL) {
-            vaddr = od->imm + (*((s_u64 *) od->reg2)) * od->scal;
+            vaddr = od->imm + (*((s_u64 *)od->reg2)) * od->scal;
         } else if (od->type == INST_OPD_MEM_REG1_REG2_SCAL) {
-            vaddr = (*((s_u64 *) od->reg1)) + (*((s_u64 *) od->reg2)) * od->scal;
+            vaddr = (*((s_u64 *)od->reg1)) + (*((s_u64 *)od->reg2)) * od->scal;
         } else if (od->type == INST_OPD_MEM_IMM_REG1_REG2_SCAL) {
-            vaddr = od->imm + (*((s_u64 *) od->reg1)) + (*((s_u64 *) od->reg2)) * od->scal;
+            vaddr = od->imm + (*((s_u64 *)od->reg1)) + (*((s_u64 *)od->reg2)) * od->scal;
         }
         return vaddr;
     }
@@ -53,7 +54,8 @@ inst_compute_operand(s_inst_operand_t *od) {
  * Update the rip pointer to the next instruction sequentially.
  */
 S_LOCAL S_INLINE void
-inst_increase_pc(void) {
+inst_increase_pc(void)
+{
     // we are handling the fixed-length of assembly string here
     // but their size can be variable as true X86 instructions
     // that's because the operands' sizes follow the specific encoding rule
@@ -72,35 +74,36 @@ inst_increase_pc(void) {
  * the instruction
  */
 S_LOCAL void
-inst_handler_mov(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
+inst_handler_mov(s_inst_operand_t *src_od, s_inst_operand_t *dst_od)
+{
     s_u64 src = inst_compute_operand(src_od);
     s_u64 dst = inst_compute_operand(dst_od);
 
     if (src_od->type == INST_OPD_REG && dst_od->type == INST_OPD_REG) {
         // src: register
         // dst: register
-        *(s_u64 *) dst = *(s_u64 *) src;
+        *(s_u64 *)dst = *(s_u64 *)src;
 
         inst_increase_pc();
         g_cpu_flag.flag_value = 0;
     } else if (src_od->type == INST_OPD_REG && dst_od->type >= INST_OPD_MEM_IMM) {
         // src: register
         // dst: virtual address
-        s_dram_write64bits(s_va2pa(dst), *(s_u64 *) src);
+        s_dram_write64bits(s_va2pa(dst), *(s_u64 *)src);
 
         inst_increase_pc();
         g_cpu_flag.flag_value = 0;
     } else if (src_od->type >= INST_OPD_MEM_IMM && dst_od->type == INST_OPD_REG) {
         // src: virtual address
         // dst: register
-        *(s_u64 *) dst = s_dram_read64bits(s_va2pa(src));
+        *(s_u64 *)dst = s_dram_read64bits(s_va2pa(src));
 
         inst_increase_pc();
         g_cpu_flag.flag_value = 0;
     } else if (src_od->type == INST_OPD_IMM && dst_od->type == INST_OPD_REG) {
         // src: immediate number (s_u64 bit map)
         // dst: register
-        *(s_u64 *) dst = src;
+        *(s_u64 *)dst = src;
 
         inst_increase_pc();
         g_cpu_flag.flag_value = 0;
@@ -108,7 +111,8 @@ inst_handler_mov(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
 }
 
 S_LOCAL void
-inst_handler_push(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused))) {
+inst_handler_push(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused)))
+{
     s_u64 src = inst_compute_operand(src_od);
     // s_u64 dst = inst_compute_operand(dst_od);
 
@@ -116,7 +120,7 @@ inst_handler_push(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute
         // src: register
         // dst: empty
         g_cpu_reg.rsp = g_cpu_reg.rsp - 8;
-        s_dram_write64bits(s_va2pa(g_cpu_reg.rsp), *(s_u64 *) src);
+        s_dram_write64bits(s_va2pa(g_cpu_reg.rsp), *(s_u64 *)src);
 
         inst_increase_pc();
         g_cpu_flag.flag_value = 0;
@@ -124,7 +128,8 @@ inst_handler_push(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute
 }
 
 S_LOCAL void
-inst_handler_pop(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused))) {
+inst_handler_pop(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused)))
+{
     s_u64 src = inst_compute_operand(src_od);
     // s_u64 dst = inst_compute_operand(dst_od);
 
@@ -133,8 +138,8 @@ inst_handler_pop(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute_
         // dst: empty
         s_u64 old_val = s_dram_read64bits(s_va2pa(g_cpu_reg.rsp));
 
-        g_cpu_reg.rsp  = g_cpu_reg.rsp + 8;
-        *(s_u64 *) src = old_val;
+        g_cpu_reg.rsp = g_cpu_reg.rsp + 8;
+        *(s_u64 *)src = old_val;
 
         inst_increase_pc();
         g_cpu_flag.flag_value = 0;
@@ -143,7 +148,8 @@ inst_handler_pop(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute_
 
 S_LOCAL void
 inst_handler_leave(s_inst_operand_t *src_od __attribute__((unused)),
-                   s_inst_operand_t *dst_od __attribute__((unused))) {
+                   s_inst_operand_t *dst_od __attribute__((unused)))
+{
     // `movq %rbp, %rsp` Set stack pointer to beginning of frame
     g_cpu_reg.rsp = g_cpu_reg.rbp;
 
@@ -157,9 +163,9 @@ inst_handler_leave(s_inst_operand_t *src_od __attribute__((unused)),
     g_cpu_flag.flag_value = 0;
 }
 
-
 S_LOCAL void
-inst_handler_call(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused))) {
+inst_handler_call(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused)))
+{
     s_u64 src = inst_compute_operand(src_od);
     // s_u64 dst = inst_compute_operand(dst_od);
 
@@ -174,10 +180,10 @@ inst_handler_call(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute
     g_cpu_flag.flag_value = 0;
 }
 
-
 S_LOCAL void
 inst_handler_ret(s_inst_operand_t *src_od __attribute__((unused)),
-                 s_inst_operand_t *dst_od __attribute__((unused))) {
+                 s_inst_operand_t *dst_od __attribute__((unused)))
+{
     // s_u64 src = inst_compute_operand(src_od);
     // s_u64 dst = inst_compute_operand(dst_od);
 
@@ -192,17 +198,17 @@ inst_handler_ret(s_inst_operand_t *src_od __attribute__((unused)),
     g_cpu_flag.flag_value = 0;
 }
 
-
 S_LOCAL void
-inst_handler_add(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
+inst_handler_add(s_inst_operand_t *src_od, s_inst_operand_t *dst_od)
+{
     s_u64 src = inst_compute_operand(src_od);
     s_u64 dst = inst_compute_operand(dst_od);
 
     if (src_od->type == INST_OPD_REG && dst_od->type == INST_OPD_REG) {
         // src: register (value: int64_t bit map)
         // dst: register (value: int64_t bit map)
-        s_u64 src_val = *(s_u64 *) src;
-        s_u64 dst_val = *(s_u64 *) dst;
+        s_u64 src_val = *(s_u64 *)src;
+        s_u64 dst_val = *(s_u64 *)dst;
         s_u64 val     = src_val + dst_val;
 
         s_u8 val_sign = ((val >> 63) & 0x1);
@@ -216,7 +222,7 @@ inst_handler_add(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
         g_cpu_flag.OF = ((src_sign == dst_sign) && (val_sign != src_sign));
 
         // update registers
-        *(s_u64 *) dst = val;
+        *(s_u64 *)dst = val;
 
         inst_increase_pc();
         return;
@@ -224,7 +230,8 @@ inst_handler_add(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
 }
 
 S_LOCAL void
-inst_handler_sub(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
+inst_handler_sub(s_inst_operand_t *src_od, s_inst_operand_t *dst_od)
+{
     s_u64 src = inst_compute_operand(src_od);
     s_u64 dst = inst_compute_operand(dst_od);
 
@@ -233,7 +240,7 @@ inst_handler_sub(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
         // dst: register (value: int64_t bit map)
 
         // dst = dst - src
-        s_u64 dst_val = *(s_u64 *) dst;
+        s_u64 dst_val = *(s_u64 *)dst;
         s_u64 val     = dst_val + (~src + 1);
 
         s_u8 val_sign = ((val >> 63) & 0x1);
@@ -247,16 +254,16 @@ inst_handler_sub(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
         g_cpu_flag.OF = (src_sign != dst_sign) && (val_sign != dst_sign);
 
         // update registers
-        *(s_u64 *) dst = val;
+        *(s_u64 *)dst = val;
 
         inst_increase_pc();
         return;
     }
 }
 
-
 S_LOCAL void
-inst_handler_cmp(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
+inst_handler_cmp(s_inst_operand_t *src_od, s_inst_operand_t *dst_od)
+{
     s_u64 src = inst_compute_operand(src_od);
     s_u64 dst = inst_compute_operand(dst_od);
 
@@ -281,9 +288,9 @@ inst_handler_cmp(s_inst_operand_t *src_od, s_inst_operand_t *dst_od) {
     }
 }
 
-
 S_LOCAL void
-inst_handler_jne(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused))) {
+inst_handler_jne(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused)))
+{
     s_u64 src = inst_compute_operand(src_od);
     if (src_od->type == INST_OPD_MEM_IMM) {
         if (g_cpu_flag.ZF == 0) {
@@ -296,32 +303,33 @@ inst_handler_jne(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute_
     g_cpu_flag.flag_value = 0;
 }
 
-
 S_LOCAL void
-inst_handler_jmp(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused))) {
-    s_u64 src    = inst_compute_operand(src_od);
-    g_cpu_pc.rip = src;
+inst_handler_jmp(s_inst_operand_t *src_od, s_inst_operand_t *dst_od __attribute__((unused)))
+{
+    s_u64 src             = inst_compute_operand(src_od);
+    g_cpu_pc.rip          = src;
 
     g_cpu_flag.flag_value = 0;
 }
 
 // look-up table of pointers to function
 S_LOCAL inst_handler_t l_inst_handler_table[INST_NUM_HANDLER_TYPE] = {
-    &inst_handler_mov,    // 0
-    &inst_handler_push,   // 1
-    &inst_handler_pop,    // 2
-    &inst_handler_leave,  // 3
-    &inst_handler_call,   // 4
-    &inst_handler_ret,    // 5
-    &inst_handler_add,    // 6
-    &inst_handler_sub,    // 7
-    &inst_handler_cmp,    // 8
-    &inst_handler_jne,    // 9
-    &inst_handler_jmp,    // 10
+    &inst_handler_mov,   // 0
+    &inst_handler_push,  // 1
+    &inst_handler_pop,   // 2
+    &inst_handler_leave, // 3
+    &inst_handler_call,  // 4
+    &inst_handler_ret,   // 5
+    &inst_handler_add,   // 6
+    &inst_handler_sub,   // 7
+    &inst_handler_cmp,   // 8
+    &inst_handler_jne,   // 9
+    &inst_handler_jmp,   // 10
 };
 
 void
-s_instruction_cycle(void) {
+s_instruction_cycle(void)
+{
     s_inst_t       inst;
     s_str_t       *inst_str;
     inst_handler_t inst_handler;
@@ -350,18 +358,19 @@ s_instruction_cycle(void) {
 }
 
 void
-s_inst_parse_instruction(s_str_t *str, s_inst_t *inst) {
+s_inst_parse_instruction(s_str_t *str, s_inst_t *inst)
+{
     s_str_t *opr_str = s_str_new(64);
     s_str_t *src_str = s_str_new(64);
     s_str_t *dst_str = s_str_new(64);
 
     s_byte ch;
-    s_u32  num_parentheses = 0;
+    s_u32  num_parentheses     = 0;
 
     s_inst_parse_state_e state = INST_PARSE_STATE_HEAD_BLANK;
 
-    s_byte blank = ' ';
-    s_byte comma = ',';
+    s_byte blank               = ' ';
+    s_byte comma               = ',';
 
     s_u64 i;
     for (i = 0; i < str->len; i++) {
@@ -443,11 +452,11 @@ s_inst_parse_instruction(s_str_t *str, s_inst_t *inst) {
     // debug info
     debug_printf(DEBUG_PRINT_INST_PARSE,
                  "[%s (%d)] [%s (%d)] [%s (%d)]\n",
-                 (char *) opr_str->data,
+                 (char *)opr_str->data,
                  inst->type,
-                 (char *) src_str->data,
+                 (char *)src_str->data,
                  inst->src.type,
-                 (char *) dst_str->data,
+                 (char *)dst_str->data,
                  inst->dst.type);
 
     s_str_free(opr_str);
@@ -455,9 +464,9 @@ s_inst_parse_instruction(s_str_t *str, s_inst_t *inst) {
     s_str_free(dst_str);
 }
 
-
 S_LOCAL void
-inst_reset_operand(s_inst_operand_t *od) {
+inst_reset_operand(s_inst_operand_t *od)
+{
     od->type = INST_OPD_EMPTY;
     od->imm  = 0;
     od->scal = 0;
@@ -466,7 +475,8 @@ inst_reset_operand(s_inst_operand_t *od) {
 }
 
 void
-s_inst_parse_operand(s_str_t *opr_str, s_inst_operand_t *od) {
+s_inst_parse_operand(s_str_t *opr_str, s_inst_operand_t *od)
+{
     inst_reset_operand(od);
 
     if (opr_str->len == 0) {
@@ -491,8 +501,8 @@ s_inst_parse_operand(s_str_t *opr_str, s_inst_operand_t *od) {
         s_str_t *reg2 = s_str_new(64);
         s_str_t *scal = s_str_new(64);
 
-        s_i32 count_a = 0;  // count number of ( )
-        s_i32 count_b = 0;  // count number of comma ,
+        s_i32 count_a = 0; // count number of ( )
+        s_i32 count_b = 0; // count number of comma ,
 
         s_u64 i;
         for (i = 0; i < opr_str->len; ++i) {
@@ -552,7 +562,7 @@ s_inst_parse_operand(s_str_t *opr_str, s_inst_operand_t *od) {
         if (scal->len > 0) {
             od->scal = string2uint(scal->data);
             if (od->scal != 1 && od->scal != 2 && od->scal != 4 && od->scal != 8) {
-                printf("%s is not a legal scalar\n", (char *) scal->data);
+                printf("%s is not a legal scalar\n", (char *)scal->data);
                 goto free_and_return;
             }
         }
