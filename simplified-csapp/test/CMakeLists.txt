@@ -1,7 +1,10 @@
-project(csapp-test)
+project(
+        csapp-test
+        LANGUAGES CXX
+        )
 
 include_directories(
-        ${CMAKE_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_executable(${PROJECT_NAME} "")

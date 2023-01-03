@@ -3,11 +3,6 @@
 #ifndef CSAPP_MACROS_H
 #define CSAPP_MACROS_H
 
-#ifdef __cpluscplus
-extern "C"
-{
-#endif
-
 /** Control flags */
 #ifndef S_DEBUG
 #define S_ENABLE_DEBUG
@@ -72,10 +67,6 @@ extern "C"
 
 // use sram cache for memory access
 #define DEBUG_ENABLE_SRAM_CACHE (0)
-#endif
-
-#ifdef __cpluscplus
-}
 #endif
 
 #endif // CSAPP_MACROS_H

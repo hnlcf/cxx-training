@@ -1,7 +1,8 @@
-#include <test/test_autoheader.h>
+#include <test_autoheader.h>
 
 s_u64
-fib(s_u64 n) {
+fib(s_u64 n)
+{
     if (n == 0) {
         return 0;
     }
@@ -17,7 +18,8 @@ fib(s_u64 n) {
     return g;
 }
 
-TEST_CASE("Fibonacci number", "[fib]") {
+TEST_CASE("Fibonacci number", "[fib]")
+{
     s_u64 expect[11] = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
 
     for (s_u64 i = 0; i < 11; ++i) {
@@ -25,15 +27,18 @@ TEST_CASE("Fibonacci number", "[fib]") {
     }
 }
 
-TEST_CASE("Math macros", "[macro]") {
-    SECTION("MAX") {
+TEST_CASE("Math macros", "[macro]")
+{
+    SECTION("MAX")
+    {
         int p      = 3;
         int b      = 4;
         int actual = MAX(p++, b);
         REQUIRE(actual == 4);
     }
 
-    SECTION("ABS") {
+    SECTION("ABS")
+    {
         int data[] = {
             0,
             1,
@@ -52,8 +57,10 @@ TEST_CASE("Math macros", "[macro]") {
     }
 }
 
-TEST_CASE("Create custom string", "[core][string]") {
-    SECTION("Static allocate") {
+TEST_CASE("Create custom string", "[core][string]")
+{
+    SECTION("Static allocate")
+    {
         s_str_t str;
 
         const char *arr[8] = {
@@ -119,7 +126,8 @@ TEST_CASE("Create custom string", "[core][string]") {
         }
     }
 
-    SECTION("Dynamic allocate") {
+    SECTION("Dynamic allocate")
+    {
         s_str_t *str;
 
         for (int i = 0; i < 1000; ++i) {
@@ -131,7 +139,8 @@ TEST_CASE("Create custom string", "[core][string]") {
     }
 }
 
-TEST_CASE("Create dynamic array", "[core][array]") {
+TEST_CASE("Create dynamic array", "[core][array]")
+{
     s_array_t *arr = s_array_new(TRUE, FALSE, sizeof(s_i32), 4);
 
     REQUIRE(arr->data != NULL);

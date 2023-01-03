@@ -3,11 +3,6 @@
 #ifndef CSAPP_CONFIG_H
 #define CSAPP_CONFIG_H
 
-#ifdef __cpluscplus
-extern "C"
-{
-#endif
-
 #include <assert.h>
 #include <stdarg.h>
 #include <stddef.h>
@@ -18,9 +13,5 @@ extern "C"
 
 #include <csapp/s_macros.h>
 #include <csapp/s_types.h>
-
-#ifdef __cpluscplus
-}
-#endif
 
 #endif // CSAPP_CONFIG_H

@@ -1,4 +1,7 @@
-project(csapp)
+project(
+        csapp
+        LANGUAGES C
+        )
 
 include_directories(
         "."
