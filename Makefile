@@ -27,7 +27,7 @@ clean:
 	mkdir -p $(BUILD_DIR)
 
 format: .clang-format
-	find $(SOURCE_DIR) -name "*.c" -name "*.cpp" -o -name "*.h" | xargs clang-format -i
+	find $(SOURCE_DIR) -name "*.c" -o -name "*.cpp" -o -name "*.h" | xargs clang-format -i
 
 
 FORCE : ;

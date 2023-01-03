@@ -17,7 +17,8 @@ S_LOCAL const s_str_t lk_reg_name_list[72] = {
 };
 
 s_u64
-s_cpu_reflect_register(s_byte *str) {
+s_cpu_reflect_register(s_byte *str)
+{
     // lookup table
 
     s_u64 reg_addr[72] = {
@@ -54,6 +55,6 @@ s_cpu_reflect_register(s_byte *str) {
         }
     }
 
-    printf("parse register %s error\n", (char *) str);
+    printf("parse register %s error\n", (char *)str);
     exit(0);
 }

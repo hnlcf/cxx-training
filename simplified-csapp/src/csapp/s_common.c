@@ -4,7 +4,8 @@
  * Wrapper of stdio printf, controlled by the debug verbose bit set
  */
 s_u64
-debug_printf(s_u64 open_set, const char *format, ...) {
+debug_printf(s_u64 open_set, const char *format, ...)
+{
     if ((open_set & DEBUG_PRINT_VERBOSE_SET) == 0x0) {
         return 0x1;
     }
@@ -20,7 +21,8 @@ debug_printf(s_u64 open_set, const char *format, ...) {
 
 // convert s_u32 to its float
 s_u32
-uint2float(s_u32 u) {
+uint2float(s_u32 u)
+{
     if (u == 0x00000000) {
         return 0x00000000;
     }
@@ -47,9 +49,9 @@ uint2float(s_u32 u) {
         s_u64 a = 0;
         a += u;
         // compute g, r, s
-        s_u32 g = (a >> (n - 23)) & 0x1;  // Guard bit, the lowest bit of the result
-        s_u32 r = (a >> (n - 24)) & 0x1;  // Round bit, the highest bit to be removed
-        s_u32 s = 0x0;                    // Sticky bit, the OR of remaining bits in the
+        s_u32 g = (a >> (n - 23)) & 0x1; // Guard bit, the lowest bit of the result
+        s_u32 r = (a >> (n - 24)) & 0x1; // Round bit, the highest bit to be removed
+        s_u32 s = 0x0;                   // Sticky bit, the OR of remaining bits in the
         // removed part (low)
         for (int j = 0; j < n - 24; ++j) {
             s = s | ((u >> j) & 0x1);
@@ -96,26 +98,28 @@ uint2float(s_u32 u) {
 
 // covert string to s_i64
 s_u64
-string2uint(s_byte *str) {
+string2uint(s_byte *str)
+{
     return string2uint_range(str, 0, -1);
 }
 
 // start: starting index inclusive
 // end: ending index inclusive
 s_u64
-string2uint_range(s_byte *str, s_i64 start, s_i64 end) {
+string2uint_range(s_byte *str, s_i64 start, s_i64 end)
+{
     if (end == -1) {
-        end = (s_i64) s_strlen(str) - 1;
+        end = (s_i64)s_strlen(str) - 1;
     }
 
     s_u64 uv       = 0;
-    s_i8  sign_bit = 0;  // 0 - positive; 1 - negative
+    s_i8  sign_bit = 0; // 0 - positive; 1 - negative
 
     // DFA: deterministic finite automata to scan string and get value
     s_i8 state = 0;
 
     for (s_i64 i = start; i <= end; ++i) {
-        char ch = (char) str[i];
+        char ch = (char)str[i];
 
         if (state == 0) {
             if (ch == '0') {
@@ -160,7 +164,7 @@ string2uint_range(s_byte *str, s_i64 start, s_i64 end) {
                 uv       = uv * 10 + ch - '0';
                 // maybe overflow
                 if (pv > uv) {
-                    printf("(s_u64)%s overflow: cannot convert\n", (char *) str);
+                    printf("(s_u64)%s overflow: cannot convert\n", (char *)str);
                     goto fail;
                 }
                 continue;
@@ -190,7 +194,7 @@ string2uint_range(s_byte *str, s_i64 start, s_i64 end) {
                 uv       = uv * 16 + ch - '0';
                 // maybe overflow
                 if (pv > uv) {
-                    printf("(s_u64)%s overflow: cannot convert\n", (char *) str);
+                    printf("(s_u64)%s overflow: cannot convert\n", (char *)str);
                     goto fail;
                 }
                 continue;
@@ -200,7 +204,7 @@ string2uint_range(s_byte *str, s_i64 start, s_i64 end) {
                 uv       = uv * 16 + ch - 'a' + 10;
                 // maybe overflow
                 if (pv > uv) {
-                    printf("(s_u64)%s overflow: cannot convert\n", (char *) str);
+                    printf("(s_u64)%s overflow: cannot convert\n", (char *)str);
                     goto fail;
                 }
                 continue;
@@ -225,14 +229,14 @@ string2uint_range(s_byte *str, s_i64 start, s_i64 end) {
         return uv;
     } else {
         if ((uv & 0x8000000000000000) != 0) {
-            printf("(s_i64)%s: signed overflow: cannot convert\n", (char *) str);
+            printf("(s_i64)%s: signed overflow: cannot convert\n", (char *)str);
             exit(0);
         }
-        s_i64 sv = -1 * (s_i64) uv;
-        return *((s_u64 *) &sv);
+        s_i64 sv = -1 * (s_i64)uv;
+        return *((s_u64 *)&sv);
     }
 
 fail:
-    printf("type converter: <%s> cannot be converted to integer\n", (char *) str);
+    printf("type converter: <%s> cannot be converted to integer\n", (char *)str);
     exit(0);
 }

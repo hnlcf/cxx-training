@@ -7,7 +7,6 @@
 #include <errno.h>  /* errno, ERANGE */
 #include <math.h>   /* HUGE_VAL */
 #include <stdlib.h> /* NULL, strtod(), malloc(), free() */
-#include <string.h> /* memcpy() */
 
 #define EXPECT(ctx, ch)                                                                            \
     do {                                                                                           \
@@ -18,17 +17,17 @@
 #define IS_DECIMAL_DIGIT(ch)  ((ch) >= '0' && (ch) <= '9')
 #define IS_NON_ZERO_DIGIT(ch) ((ch) >= '1' && (ch) <= '9')
 
+static void
+lj_parse_whitespace(lj_context_t *ctx);
 
-static void lj_parse_whitespace(lj_context_t *ctx);
+static int
+lj_parse_number(lj_context_t *ctx, lj_value_t *val);
 
-static int lj_parse_number(lj_context_t *ctx, lj_value_t *val);
+static int
+lj_parse_value(lj_context_t *ctx, lj_value_t *val);
 
-static int lj_parse_value(lj_context_t *ctx, lj_value_t *val);
-
-static int lj_parse_literal(lj_context_t *ctx,
-                            lj_value_t   *val,
-                            const char   *literal,
-                            lj_type_t     type);
+static int
+lj_parse_literal(lj_context_t *ctx, lj_value_t *val, const char *literal, lj_type_t type);
 
 // Parse Whitespace
 // type:
@@ -37,7 +36,8 @@ static int lj_parse_literal(lj_context_t *ctx,
 //  - '\n'  carriage return
 //  - '\r'  linefeed
 static void
-lj_parse_whitespace(lj_context_t *ctx) {
+lj_parse_whitespace(lj_context_t *ctx)
+{
     const char *p = ctx->json;
     while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r') {
         p++;
@@ -46,7 +46,8 @@ lj_parse_whitespace(lj_context_t *ctx) {
 }
 
 static int
-lj_parse_literal(lj_context_t *ctx, lj_value_t *val, const char *literal, lj_type_t type) {
+lj_parse_literal(lj_context_t *ctx, lj_value_t *val, const char *literal, lj_type_t type)
+{
     EXPECT(ctx, literal[0]);
     size_t i;
     for (i = 0; literal[i + 1]; i++) {
@@ -60,7 +61,8 @@ lj_parse_literal(lj_context_t *ctx, lj_value_t *val, const char *literal, lj_typ
 }
 
 static int
-lj_parse_number(lj_context_t *ctx, lj_value_t *val) {
+lj_parse_number(lj_context_t *ctx, lj_value_t *val)
+{
     const char *p = ctx->json;
     if (*p == '-') {
         p++;
@@ -107,7 +109,8 @@ lj_parse_number(lj_context_t *ctx, lj_value_t *val) {
 }
 
 static int
-lj_parse_value(lj_context_t *ctx, lj_value_t *val) {
+lj_parse_value(lj_context_t *ctx, lj_value_t *val)
+{
     switch (*ctx->json) {
         case 'n':
             return lj_parse_literal(ctx, val, "null", LJ_NULL);
@@ -123,7 +126,8 @@ lj_parse_value(lj_context_t *ctx, lj_value_t *val) {
 }
 
 int
-lj_parse(lj_value_t *val, const char *json) {
+lj_parse(lj_value_t *val, const char *json)
+{
     assert(val != NULL);
 
     int          ret;
@@ -150,7 +154,8 @@ lj_parse(lj_value_t *val, const char *json) {
 }
 
 void
-lj_free(lj_value_t *val) {
+lj_free(lj_value_t *val)
+{
     assert(val != NULL);
     if (val->type == LJ_STRING) {
         free(val->str.data);
@@ -159,40 +164,48 @@ lj_free(lj_value_t *val) {
 }
 
 lj_type_t
-lj_get_type(const lj_value_t *val) {
+lj_get_type(const lj_value_t *val)
+{
     assert(val != NULL);
     return val->type;
 }
 
 lj_bool_t
-lj_get_boolean(const lj_value_t *val) {
+lj_get_boolean(const lj_value_t *val)
+{
     // TODO
+    return false;
 }
 
 void
-lj_set_boolean(const lj_value_t *val, lj_bool_t b) {
+lj_set_boolean(const lj_value_t *val, lj_bool_t b)
+{
     // TODO
 }
 
 double
-lj_get_number(const lj_value_t *val) {
+lj_get_number(const lj_value_t *val)
+{
     assert(val != NULL && val->type == LJ_NUMBER);
     return val->n;
 }
 
 void
-lj_set_number(const lj_value_t *val, double n) {
+lj_set_number(const lj_value_t *val, double n)
+{
     // TODO
 }
 
 lj_string_t
-lj_get_string(const lj_value_t *val) {
+lj_get_string(const lj_value_t *val)
+{
     assert(val != NULL && val->type == LJ_STRING);
     return val->str;
 }
 
 void
-lj_set_string(lj_value_t *val, const char *str, size_t len) {
+lj_set_string(lj_value_t *val, const char *str, size_t len)
+{
     assert(val != NULL && (str != NULL || len != 0));
 
     lj_free(val);

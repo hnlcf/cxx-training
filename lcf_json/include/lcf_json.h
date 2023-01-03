@@ -4,6 +4,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 #define lj_memcpy(dst, src, len)                                                                   \
     do {                                                                                           \

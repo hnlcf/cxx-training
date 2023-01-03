@@ -15,26 +15,38 @@ static int main_ret   = 0;
 static int test_count = 0;
 static int test_pass  = 0;
 
-static void test_parse_null();
-static void test_parse_true();
-static void test_parse_false();
-static void test_parse_number();
-static void test_parse_expect_value();
-static void test_parse_invalid_value();
-static void test_parse_root_not_singular();
-static void test_parse_number_too_big();
-static void test_access_string();
-static void test_parse();
+static void
+test_parse_null();
+static void
+test_parse_true();
+static void
+test_parse_false();
+static void
+test_parse_number();
+static void
+test_parse_expect_value();
+static void
+test_parse_invalid_value();
+static void
+test_parse_root_not_singular();
+static void
+test_parse_number_too_big();
+static void
+test_access_string();
+static void
+test_parse();
 
 int
-main() {
+main()
+{
     test_parse();
     printf("%d/%d (%3.2f%%) passed\n", test_pass, test_count, test_pass * 100.0 / test_count);
     return main_ret;
 }
 
 static void
-test_parse() {
+test_parse()
+{
     test_parse_null();
     test_parse_true();
     test_parse_false();
@@ -47,7 +59,8 @@ test_parse() {
 }
 
 static void
-test_parse_null() {
+test_parse_null()
+{
     lj_value_t v;
     v.type = LJ_TRUE;
     EXPECT_EQ_INT(LJ_PARSE_OK, lj_parse(&v, "null"));
@@ -55,7 +68,8 @@ test_parse_null() {
 }
 
 static void
-test_parse_true() {
+test_parse_true()
+{
     lj_value_t v;
     v.type = LJ_FALSE;
     EXPECT_EQ_INT(LJ_PARSE_OK, lj_parse(&v, "true"));
@@ -63,7 +77,8 @@ test_parse_true() {
 }
 
 static void
-test_parse_false() {
+test_parse_false()
+{
     lj_value_t v;
     v.type = LJ_TRUE;
     EXPECT_EQ_INT(LJ_PARSE_OK, lj_parse(&v, "false"));
@@ -71,7 +86,8 @@ test_parse_false() {
 }
 
 static void
-test_parse_number() {
+test_parse_number()
+{
     TEST_NUMBER(0.0, "0");
     TEST_NUMBER(0.0, "-0");
     TEST_NUMBER(0.0, "-0.0");
@@ -105,13 +121,15 @@ test_parse_number() {
 }
 
 static void
-test_parse_expect_value() {
+test_parse_expect_value()
+{
     TEST_ERROR(LJ_PARSE_EXPECT_VALUE, "");
     TEST_ERROR(LJ_PARSE_EXPECT_VALUE, " ");
 }
 
 static void
-test_parse_invalid_value() {
+test_parse_invalid_value()
+{
     /* invalid string */
     TEST_ERROR(LJ_PARSE_INVALID_VALUE, "nul");
     TEST_ERROR(LJ_PARSE_INVALID_VALUE, "?");
@@ -130,7 +148,8 @@ test_parse_invalid_value() {
 }
 
 static void
-test_parse_root_not_singular() {
+test_parse_root_not_singular()
+{
     TEST_ERROR(LJ_PARSE_ROOT_NOT_SINGULAR, "null x");
 
 #if TEST_NUMBER_FLAG
@@ -143,7 +162,8 @@ test_parse_root_not_singular() {
 }
 
 static void
-test_parse_number_too_big() {
+test_parse_number_too_big()
+{
 #if TEST_NUMBER_FLAG
     TEST_ERROR(LJ_PARSE_NUMBER_TOO_BIG, "1e309");
     TEST_ERROR(LJ_PARSE_NUMBER_TOO_BIG, "-1e309");
@@ -151,7 +171,8 @@ test_parse_number_too_big() {
 }
 
 static void
-test_access_string() {
+test_access_string()
+{
     lj_value_t  v;
     lj_string_t str;
     lj_init(&v);
