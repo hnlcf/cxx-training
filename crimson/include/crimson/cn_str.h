@@ -9,7 +9,7 @@ typedef struct cn_str_s cn_str_t;
 /// String literal only at stack or global segement.
 struct cn_str_s
 {
-    size_t    size;
+    cn_usize  size;
     cn_uchar *data;
 };
 

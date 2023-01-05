@@ -1,14 +1,14 @@
 #include <crimson/cn_string.h>
 
 static inline cn_string_t *
-string_from_raw(cn_uchar *str, size_t len)
+string_from_raw(cn_uchar *str, cn_usize len)
 {
     cn_string_t *s = cn_string_with_capacity(2 * len);
     if (s == NULL) {
         return NULL;
     }
 
-    for (size_t i = 0; i < len; i++) {
+    for (cn_usize i = 0; i < len; i++) {
         cn_array_push(&s->data, str + i);
     }
 
@@ -22,7 +22,7 @@ cn_string_new()
 }
 
 cn_string_t *
-cn_string_with_capacity(size_t capacity)
+cn_string_with_capacity(cn_usize capacity)
 {
     cn_string_t *s = cn_alloc_type(cn_string_t);
     if (s == NULL) {
@@ -40,7 +40,7 @@ cn_string_with_capacity(size_t capacity)
 cn_string_t *
 cn_string_from_raw(cn_uchar *str)
 {
-    size_t len = sizeof(str) - 1;
+    cn_usize len = sizeof(str) - 1;
     return string_from_raw(str, len);
 }
 
@@ -50,7 +50,7 @@ cn_string_from_str(cn_str_t *str)
     return string_from_raw(str->data, str->size);
 }
 
-size_t
+cn_usize
 cn_string_len(cn_string_t *s)
 {
     return s->data.len;

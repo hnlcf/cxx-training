@@ -17,7 +17,7 @@ cn_string_t *
 cn_string_new();
 
 cn_string_t *
-cn_string_with_capacity(size_t capacity);
+cn_string_with_capacity(cn_usize capacity);
 
 cn_string_t *
 cn_string_from_raw(cn_uchar *str);
@@ -25,7 +25,7 @@ cn_string_from_raw(cn_uchar *str);
 cn_string_t *
 cn_string_from_str(cn_str_t *str);
 
-size_t
+cn_usize
 cn_string_len(cn_string_t *s);
 
 cn_bool

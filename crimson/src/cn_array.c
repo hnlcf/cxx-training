@@ -1,7 +1,7 @@
 #include <crimson/cn_array.h>
 
 static inline cn_bool
-array_may_resize(cn_array_t *vec, size_t capacity)
+array_may_resize(cn_array_t *vec, cn_usize capacity)
 {
     if (vec == NULL) {
         return FALSE;
@@ -9,7 +9,7 @@ array_may_resize(cn_array_t *vec, size_t capacity)
 
     cn_raw_ptr old_data = vec->data.ptr;
     cn_raw_ptr new_data = cn_pointer_init(&vec->data, capacity * vec->elt_size);
-    size_t     num      = vec->current - old_data;
+    cn_usize   num      = vec->current - old_data;
 
     if (new_data == NULL) {
         // TODO: Log failed to allocate memory.
@@ -27,7 +27,7 @@ array_may_resize(cn_array_t *vec, size_t capacity)
 }
 
 cn_array_t *
-cn_array_new(size_t capacity, size_t elt_size)
+cn_array_new(cn_usize capacity, cn_usize elt_size)
 {
     cn_array_t *vec = cn_alloc_type(cn_array_t);
     if (vec == NULL) {
@@ -43,13 +43,13 @@ cn_array_new(size_t capacity, size_t elt_size)
 }
 
 cn_bool
-cn_array_init(cn_array_t *vec, size_t capacity, size_t elt_size)
+cn_array_init(cn_array_t *vec, cn_usize capacity, cn_usize elt_size)
 {
     if (vec == NULL) {
         return FALSE;
     }
 
-    size_t     total = capacity * elt_size;
+    cn_usize   total = capacity * elt_size;
     cn_raw_ptr ptr   = cn_pointer_init(&vec->data, total);
     if (ptr == NULL) {
         // TODO: Log failed to allocate
@@ -132,7 +132,7 @@ cn_array_may_expand(cn_array_t *vec)
 }
 
 cn_bool
-cn_array_push(cn_array_t *vec, const void *elt)
+cn_array_push(cn_array_t *vec, const cn_any_ptr elt)
 {
     if (!cn_array_may_expand(vec)) {
         // Vector is full and fail to expand
@@ -160,7 +160,7 @@ cn_array_may_shrink(cn_array_t *vec)
 }
 
 cn_bool
-cn_array_pop(cn_array_t *vec, void *ret_elt)
+cn_array_pop(cn_array_t *vec, cn_any_ptr ret_elt)
 {
     if (cn_array_is_empty(vec)) {
         return FALSE;
@@ -178,7 +178,7 @@ cn_array_pop(cn_array_t *vec, void *ret_elt)
 }
 
 cn_bool
-cn_array_remove(cn_array_t *vec, size_t index, void *ret_elt)
+cn_array_remove(cn_array_t *vec, cn_usize index, cn_any_ptr ret_elt)
 {
     if (vec == NULL) {
         return FALSE;
@@ -198,8 +198,8 @@ cn_array_remove(cn_array_t *vec, size_t index, void *ret_elt)
     vec->len -= 1;
     vec->current -= vec->elt_size;
 
-    size_t     num  = vec->len;
-    size_t     size = vec->elt_size;
+    cn_usize   num  = vec->len;
+    cn_usize   size = vec->elt_size;
     cn_raw_ptr elt  = vec->data.ptr + index * size;
 
     // Delete specified element and move the tail

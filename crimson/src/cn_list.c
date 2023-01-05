@@ -3,7 +3,7 @@
 #define list_node_alloc() cn_alloc_type(cn_list_node_t)
 
 static inline cn_raw_ptr
-list_data_init(cn_list_data_t *data, size_t size)
+list_data_init(cn_list_data_t *data, cn_usize size)
 {
     return cn_pointer_init(data, size);
 }
@@ -17,7 +17,7 @@ list_data_retake(cn_list_data_t *data)
 }
 
 static inline cn_list_node_t *
-list_node_new(size_t size)
+list_node_new(cn_usize size)
 {
     cn_raw_ptr      p    = NULL;
     cn_list_node_t *node = NULL;
@@ -46,7 +46,7 @@ list_node_drop(cn_list_node_t *list)
 }
 
 cn_list_t *
-cn_list_new(size_t len, size_t size)
+cn_list_new(cn_usize len, cn_usize size)
 {
     cn_list_t       *list   = NULL;
     cn_list_node_t  *head   = NULL;
@@ -57,7 +57,7 @@ cn_list_new(size_t len, size_t size)
     head                    = list_node_new(size);
     p_temp                  = &head->next;
 
-    for (size_t i = 0; i < len; i++) {
+    for (cn_usize i = 0; i < len; i++) {
         temp    = list_node_new(size);
 
         *p_temp = temp;

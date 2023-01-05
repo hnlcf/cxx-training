@@ -1,7 +1,7 @@
 #include <crimson/cn_alloc.h>
 
 cn_raw_ptr
-cn_alloc(size_t size)
+cn_alloc(cn_usize size)
 {
     cn_raw_ptr p = NULL;
     if (size) {
@@ -12,7 +12,7 @@ cn_alloc(size_t size)
 }
 
 cn_raw_ptr
-cn_calloc(size_t size)
+cn_calloc(cn_usize size)
 {
     cn_raw_ptr p = cn_alloc(size);
     if (p != NULL) {
@@ -23,7 +23,7 @@ cn_calloc(size_t size)
 }
 
 cn_raw_ptr
-cn_realloc(cn_raw_ptr mem, size_t size)
+cn_realloc(cn_raw_ptr mem, cn_usize size)
 {
     if (mem == NULL) {
         return NULL;

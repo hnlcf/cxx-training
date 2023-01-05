@@ -2,7 +2,7 @@
 #include <crimson/cn_pointer.h>
 
 cn_raw_ptr
-cn_pointer_init(cn_pointer_t *p, size_t size)
+cn_pointer_init(cn_pointer_t *p, cn_usize size)
 {
     if (p == NULL) {
         return NULL;

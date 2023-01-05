@@ -14,9 +14,9 @@
 /// Space:
 ///     - `O(1)`
 void
-insertion_sort(int32_t *arr, size_t n);
+insertion_sort(int32_t *arr, cn_usize n);
 
 void
-bubble_sort(int32_t *arr, size_t n);
+bubble_sort(int32_t *arr, cn_usize n);
 
 #endif // CN_SORT_H_INCLUDE

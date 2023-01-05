@@ -7,15 +7,15 @@
 
 /// Allocate `size` bytes memory.
 cn_raw_ptr
-cn_alloc(size_t size);
+cn_alloc(cn_usize size);
 
 /// Allocate `size` bytes memory and initialize to zero.
 cn_raw_ptr
-cn_calloc(size_t size);
+cn_calloc(cn_usize size);
 
 /// Re-allocate the memory block addressed at `mem` to `size` bytes.
 cn_raw_ptr
-cn_realloc(cn_raw_ptr mem, size_t size);
+cn_realloc(cn_raw_ptr mem, cn_usize size);
 
 #define cn_alloc_type(type) (type *)cn_alloc(sizeof(type))
 #define cn_free(ptr)                                                                               \

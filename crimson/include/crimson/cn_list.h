@@ -25,11 +25,11 @@ struct cn_list_node_s
 struct cn_list_s
 {
     cn_list_node_t *head;
-    size_t          len;
+    cn_usize        len;
 };
 
 cn_list_t *
-cn_list_new(size_t len, size_t size);
+cn_list_new(cn_usize len, cn_usize size);
 void
 cn_list_drop(cn_list_t *list);
 
