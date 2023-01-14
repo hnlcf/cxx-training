@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 .cache/
+.xmake/
 
 *.iml
 *.sublime-project
