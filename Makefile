@@ -1,35 +1,28 @@
-PROJECT 	:= test-cpp
+PROJECT 	:= cxx-training
 PROJ_DIR 	:= $(shell pwd)
 
-SOURCE_DIR	:=  crimson \
-				lcf_json \
-				mini_std \
-				simplified-csapp \
-				test-c
-BUILD_DIR 	:= $(PROJ_DIR)/build
+BUILDER 	:= xmake
+BUILD_TYPE 	:= debug
 
-BUILDER 	:= cmake
-BUILD_TYPE 	:= Debug
-GENERATOR 	:= Ninja
-BUILD_FLAG 	:= -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
-							-DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE
+JOBS		:= $(shell nproc)
 
-default : run
+default : build
 
-reload : 
-	$(BUILDER) $(BUILD_FLAG) -G Ninja -S $(PROJ_DIR) -B $(BUILD_DIR)
+reload : clean format
+	$(BUILDER) config --mode=$(BUILD_TYPE)
+	$(BUILDER) project --kind=compile_commands --lsp=clangd --outputdir=$(PROJ_DIR)
 
-build: FORCE
-	$(BUILDER) --build $(BUILD_DIR) --target all
+build : FORCE
+	$(BUILDER) build --all --warning --jobs=$(JOBS)
 
-clean:
-	rm -rf $(BUILD_DIR)
-	mkdir -p $(BUILD_DIR)
+clean :
+	rm -rf compile_commands.json
+	$(BUILDER) clean
 
-format: .clang-format
-	find $(SOURCE_DIR) -name "*.c" -o -name "*.cpp" -o -name "*.h" | xargs clang-format -i
+format : .clang-format
+	$(BUILDER) format
 
 
 FORCE : ;
 
-.PHONY : FORCE reload build run clean format
+.PHONY : FORCE reload build clean format
