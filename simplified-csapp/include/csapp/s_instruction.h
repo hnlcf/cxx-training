@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_INSTRUCTION_H
 #define CSAPP_INSTRUCTION_H
@@ -110,7 +110,7 @@ struct s_instruction_s
  * Instruction cycle is implemented in CPU, the only exposed interface outside
  * CPU.
  */
-S_API void
+void
 s_instruction_cycle();
 
 /**
@@ -119,7 +119,7 @@ s_instruction_cycle();
  * @param str assembly code string, e.g. `mov $rsp,$rbp`
  * @param inst point of storing the parsed instruction
  */
-S_API void
+void
 s_inst_parse_instruction(s_str_t *str, s_inst_t *inst);
 
 /**
@@ -129,7 +129,7 @@ s_inst_parse_instruction(s_str_t *str, s_inst_t *inst);
  * @param str operand string, e.g. `0xabcd(%rsp,%rbx,8)`
  * @param od pointer of storing the parsed operand
  */
-S_API void
+void
 s_inst_parse_operand(s_str_t *opr_str, s_inst_operand_t *od);
 
 #endif // CSAPP_INSTRUCTION_H

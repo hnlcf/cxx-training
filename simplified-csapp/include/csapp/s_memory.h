@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_MEMORY_H
 #define CSAPP_MEMORY_H
@@ -28,7 +28,7 @@ S_GLOBAL_VAR s_u8 g_physical_mem[MEM_PHYSICAL_SPACE];
  * @param cr active cpu core processor
  * @return a unsigned 64 bits integer
  */
-S_API s_u64
+s_u64
 s_dram_read64bits(s_u64 p_addr);
 
 /**
@@ -38,7 +38,7 @@ s_dram_read64bits(s_u64 p_addr);
  * @param data the 64 bits integer need to be writed
  * @param cr active cpu core processor
  */
-S_API void
+void
 s_dram_write64bits(s_u64 p_addr, s_u64 data);
 
 /**
@@ -48,7 +48,7 @@ s_dram_write64bits(s_u64 p_addr, s_u64 data);
  * @param buf target read buffer
  * @param cr active cpu core processor
  */
-S_API void
+void
 s_dram_read_inst(s_u64 p_addr, s_str_t *buf);
 
 /**
@@ -58,7 +58,7 @@ s_dram_read_inst(s_u64 p_addr, s_str_t *buf);
  * @param str instruction string
  * @param cr active cpu core processor
  */
-S_API void
+void
 s_dram_write_inst(s_u64 p_addr, s_str_t *str);
 
 /**
@@ -69,7 +69,7 @@ s_dram_write_inst(s_u64 p_addr, s_str_t *str);
  * @param cr active cpu core processor
  * @return the physical address
  */
-S_API s_u64
+s_u64
 s_va2pa(s_u64 v_addr);
 
 #endif // CSAPP_MEMORY_H

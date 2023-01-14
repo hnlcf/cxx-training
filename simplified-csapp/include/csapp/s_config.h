@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_CONFIG_H
 #define CSAPP_CONFIG_H

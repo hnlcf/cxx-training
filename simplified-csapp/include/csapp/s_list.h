@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_LIST_H
 #define CSAPP_LIST_H
@@ -26,11 +26,11 @@ struct s_list_s
     s_clear_fn     clear_func; // the memory free function for list node
 };
 
-S_API s_list_t *
+s_list_t *
 s_list_create(s_size capacity, s_size elt_size);
-S_API void
+void
 s_list_init(s_list_t *list, s_size capacity, s_size elt_size);
-S_API s_list_node_t *
+s_list_node_t *
 s_list_node_create(s_size size);
 
 #endif // CSAPP_LIST_H

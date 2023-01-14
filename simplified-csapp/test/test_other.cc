@@ -1,4 +1,4 @@
-#include <test_autoheader.h>
+#include <csapp_test/test_autoheader.h>
 
 s_u64
 fib(s_u64 n)
@@ -33,7 +33,7 @@ TEST_CASE("Math macros", "[macro]")
     {
         int p      = 3;
         int b      = 4;
-        int actual = MAX(p++, b);
+        int actual = std::max(p++, b);
         REQUIRE(actual == 4);
     }
 
@@ -52,7 +52,7 @@ TEST_CASE("Math macros", "[macro]")
             1,
         };
         for (int i = 0; i < 4; ++i) {
-            REQUIRE(ABS(data[i]) == expect[i]);
+            REQUIRE(std::abs(data[i]) == expect[i]);
         }
     }
 }

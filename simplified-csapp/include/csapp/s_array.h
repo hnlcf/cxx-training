@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_ARRAY_H
 #define CSAPP_ARRAY_H
@@ -21,15 +21,15 @@ struct s_array_s
     s_clear_fn clear_fn;    // the function of clear an element of array
 };
 
-S_API s_array_t *
+s_array_t *
 s_array_new(s_bool trail_zero, s_bool clear, s_size elt_size, s_size capacity);
-S_API s_byte *
+s_byte *
 s_array_free(s_array_t *arr, s_bool free_data);
-S_API s_array_t *
+s_array_t *
 s_array_size_new(s_bool trail_zero, s_bool clear, s_size elt_size, s_size capacity);
-S_API void
+void
 s_array_may_expand(s_array_t *arr, s_size len);
-S_API s_array_t *
+s_array_t *
 s_array_append_vals(s_array_t *arr, const s_ptr data, s_size len);
 
 #define s_array_index(arr, type, idx) (((type *)(arr)->data)[(idx)])

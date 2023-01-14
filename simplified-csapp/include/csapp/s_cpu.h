@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_CPU_H
 #define CSAPP_CPU_H
@@ -262,7 +262,7 @@ struct cpu_program_counter_s
  * @param str register name
  * @return
  */
-S_API s_u64
+s_u64
 s_cpu_reflect_register(s_byte *str);
 
 /**

@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_MACROS_H
 #define CSAPP_MACROS_H
@@ -20,6 +20,7 @@
 #define S_ATTR(opt)   __attribute__(opt)
 #define S_ATTR_UNUSED S_ATTR(unused)
 
+#ifndef __cplusplus
 /**
  * Utils
  */
@@ -43,6 +44,7 @@
         const typeof(a) _a = (a);                                                                  \
         _a < 0 ? -_a : _a;                                                                         \
     })
+#endif
 
 /**
  * Debug Signal Flags

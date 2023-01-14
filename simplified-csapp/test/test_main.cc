@@ -1,4 +1,4 @@
-#include <test_autoheader.h>
+#include <csapp_test/test_autoheader.h>
 
 cpu_register_t g_cpu_reg;
 cpu_flag_t     g_cpu_flag;
