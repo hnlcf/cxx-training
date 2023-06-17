@@ -49,6 +49,16 @@ cn_pointer_retake(cn_pointer_t *p)
     }
 }
 
+cn_bool
+cn_pointer_clear(cn_pointer_t *p)
+{
+    if (p == NULL) {
+        return FALSE;
+    }
+
+    cn_memzero(p->ptr, p->size);
+    return TRUE;
+}
 
 cn_bool
 cn_pointer_cmp(cn_pointer_t *p1, cn_pointer_t *p2, cn_cmp_fn cmp)

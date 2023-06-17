@@ -24,6 +24,9 @@ cn_pointer_init(cn_pointer_t *p, cn_usize size);
 void
 cn_pointer_retake(cn_pointer_t *p);
 
+/// Reset the data pointed to by fat pointer to 0.
+cn_bool
+cn_pointer_clear(cn_pointer_t *p);
 
 /// Compare two fat pointers with given cmp function.
 cn_bool
