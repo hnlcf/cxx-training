@@ -30,7 +30,7 @@ s_array_size_new(s_bool trail_zero, s_bool clear, s_size elt_size, s_size capaci
 void
 s_array_may_expand(s_array_t *arr, s_size len);
 s_array_t *
-s_array_append_vals(s_array_t *arr, const s_ptr data, s_size len);
+s_array_append_vals(s_array_t *arr, s_ptr data, s_size len);
 
 #define s_array_index(arr, type, idx) (((type *)(arr)->data)[(idx)])
 #define s_array_elt_len(arr, idx)     ((arr)->elt_size * (idx))
