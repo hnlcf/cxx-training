@@ -19,7 +19,7 @@ jobs:
       -   name: Generate build config
           run: >-
             cmake -S "${{ github.workspace }}" -B "${{ github.workspace }}/build"
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
       -   name: Build
           run: >-
