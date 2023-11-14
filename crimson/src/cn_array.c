@@ -117,6 +117,8 @@ cn_array_clear(cn_array_t *vec)
         return FALSE;
     }
 
+    cn_pointer_clear(&vec->data);
+
     vec->current = vec->data.ptr;
     vec->len     = 0;
     return TRUE;

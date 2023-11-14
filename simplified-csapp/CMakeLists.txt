@@ -1,16 +1,40 @@
-project(
-        simplified-csapp
-        VERSION 1.0
-        )
+project(csapp)
 
-enable_testing()
-set(CMAKE_C_STANDARD 11)
+set(
+        CSAPP_SRC_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_alloc.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_array.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_common.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_cpu.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_instruction.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_list.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_log.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_memory.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_string.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/s_utils.c"
+)
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_compile_definitions(
-            S_DEBUG=1
-    )
-endif ()
+add_library("${PROJECT_NAME}" ${CSAPP_SRC_FILES})
+target_include_directories(
+        "${PROJECT_NAME}" PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
 
-add_subdirectory(src)
-add_subdirectory(test)
+set(
+        CSAPP_TEST_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/test_instruction.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/test_main.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/test_memory.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/test_other.cc"
+)
+
+add_executable("${PROJECT_NAME}_test" ${CSAPP_TEST_FILES})
+target_include_directories(
+        "${PROJECT_NAME}_test" PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+target_link_libraries(
+        "${PROJECT_NAME}_test" PUBLIC
+        "${PROJECT_NAME}"
+        Catch2::Catch2WithMain
+)

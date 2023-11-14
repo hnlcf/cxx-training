@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_LOG_H
 #define CSAPP_LOG_H

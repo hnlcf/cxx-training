@@ -1,48 +1,40 @@
-project(
-        crimson
-        VERSION 1.0
-        LANGUAGES C CXX
+project(crimson)
+
+set(
+        CRIMSON_SRC_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_alloc.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_array.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_list.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_log.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_pointer.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_sort.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_str.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_string.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_type.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/cn_utils.c"
 )
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_C_STANDARD 11)
+add_library("${PROJECT_NAME}" ${CRIMSON_SRC_FILES})
+target_include_directories(
+        "${PROJECT_NAME}" PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
 
-# Build
+set(
+        CRIMSON_TEST_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/crimson_test.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/cn_array_test.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/cn_list_test.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test/cn_pointer_test.cc"
+)
 
-## Compiler options
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    ### Clang
-    add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
-    add_link_options(-lasan)
-endif()
-
-## Build main library
-add_library(${PROJECT_NAME} ${SOURCE_LIST})
-target_include_directories(${PROJECT_NAME} PUBLIC
-        "include"
-        )
-target_sources(${PROJECT_NAME} PRIVATE
-        "src/cn_alloc.c"
-        "src/cn_array.c"
-        "src/cn_list.c"
-        "src/cn_log.c"
-        "src/cn_pointer.c"
-        "src/cn_sort.c"
-        "src/cn_str.c"
-        "src/cn_string.c"
-        "src/cn_type.c"
-        "src/cn_utils.c"
-        )
-
-## Build test binary
-add_executable(${PROJECT_NAME}_test
-        "test/crimson_test.cc"
-        "test/cn_array_test.cc"
-        "test/cn_list_test.cc"
-        "test/cn_pointer_test.cc"
-        )
-target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} Catch2::Catch2WithMain)
-
-# Enable CTest
-enable_testing()
-add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
+add_executable("${PROJECT_NAME}_test" ${CRIMSON_TEST_FILES})
+target_include_directories(
+        "${PROJECT_NAME}_test" PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+target_link_libraries(
+        "${PROJECT_NAME}_test" PRIVATE
+        "${PROJECT_NAME}"
+        Catch2::Catch2WithMain
+)

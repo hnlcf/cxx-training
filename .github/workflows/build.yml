@@ -11,10 +11,15 @@ jobs:
           with:
             submodules: true
 
+      -   name: Setup third_party
+          run: |
+            git clone https://github.com/Microsoft/vcpkg.git
+            ./vcpkg/bootstrap-vcpkg.sh
+            ./vcpkg/vcpkg install catch2
       -   name: Generate build config
           run: >-
             cmake -S "${{ github.workspace }}" -B "${{ github.workspace }}/build"
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
       -   name: Build
           run: >-

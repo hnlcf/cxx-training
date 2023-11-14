@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_ALLOC_H
 #define CSAPP_ALLOC_H
@@ -11,7 +11,7 @@
  * @param size the number of bytes to allocate
  * @return a pointer to allocated memory
  */
-S_API s_ptr
+s_ptr
 s_malloc(s_size size);
 
 /**
@@ -22,7 +22,7 @@ s_malloc(s_size size);
  * @param size the new size of memory in bytes
  * @return the new address of the allocated memory
  */
-S_API s_ptr
+s_ptr
 s_realloc(s_ptr mem, s_size size);
 
 #define s_alloc_new_type(type) ((type *)s_malloc(sizeof(type)))

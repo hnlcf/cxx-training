@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_CPU_H
 #define CSAPP_CPU_H
@@ -7,14 +7,14 @@
 #include <csapp/s_string.h>
 
 /** PUBLIC Type Alias */
-typedef union cpu_flag_u             cpu_flag_t;
-typedef struct cpu_register_s        cpu_register_t;
-typedef struct cpu_program_counter_s cpu_pc_t;
+typedef union s_cpu_flag_u             s_cpu_flag_t;
+typedef struct s_cpu_register_s        s_cpu_register_t;
+typedef struct s_cpu_program_counter_s s_cpu_pc_t;
 
 /**
  * CPU registers in each core, the reg is accessible to the core it belong to.
  */
-struct cpu_register_s
+struct s_cpu_register_s
 {
     // return value
     union
@@ -205,7 +205,7 @@ struct sram_cache;
  *
  * @ref CSAPP -- Chapter 3 Machine-Level Representation of Program: 3.6 Control
  */
-union cpu_flag_u
+union s_cpu_flag_u
 {
     s_u64 flag_value;
     struct
@@ -247,7 +247,7 @@ union cpu_flag_u
 /**
  * CPU Core
  */
-struct cpu_program_counter_s
+struct s_cpu_program_counter_s
 {
     union
     {
@@ -262,7 +262,7 @@ struct cpu_program_counter_s
  * @param str register name
  * @return
  */
-S_API s_u64
+s_u64
 s_cpu_reflect_register(s_byte *str);
 
 /**
@@ -271,8 +271,8 @@ s_cpu_reflect_register(s_byte *str);
  *   - conditional flags
  *   - program counter
  */
-S_GLOBAL_VAR cpu_register_t g_cpu_reg;
-S_GLOBAL_VAR cpu_flag_t     g_cpu_flag;
-S_GLOBAL_VAR cpu_pc_t       g_cpu_pc;
+S_GLOBAL_VAR s_cpu_register_t g_cpu_reg;
+S_GLOBAL_VAR s_cpu_flag_t     g_cpu_flag;
+S_GLOBAL_VAR s_cpu_pc_t       g_cpu_pc;
 
 #endif // CSAPP_CPU_H

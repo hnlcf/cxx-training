@@ -1,4 +1,3 @@
-#pragma once
 
 #ifndef CSAPP_STRING_H
 #define CSAPP_STRING_H
@@ -55,7 +54,7 @@ struct s_str_s
  * @param size the capacity of string in bytes
  * @return the pointer of string
  */
-S_API s_str_t *
+s_str_t *
 s_str_new(s_size size);
 
 /**
@@ -63,7 +62,7 @@ s_str_new(s_size size);
  *
  * @param str the string pointer
  */
-S_API void
+void
 s_str_free(s_str_t *str);
 
 /**
@@ -72,7 +71,7 @@ s_str_free(s_str_t *str);
  * @param str the string pointer
  * @param len the num that string need to remain in bytes
  */
-S_API void
+void
 s_str_may_expand(s_str_t *str, s_size len);
 
 /**
@@ -81,7 +80,7 @@ s_str_may_expand(s_str_t *str, s_size len);
  * @param str the pointer of string to be judged
  * @return TRUE if allocated in heap(dynamic), otherwise FALSE
  */
-S_API s_bool
+s_bool
 s_str_is_dynamic(s_str_t *str);
 
 #endif // CSAPP_STRING_H

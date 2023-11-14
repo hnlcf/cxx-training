@@ -7,7 +7,7 @@ s_print_register(void)
         return;
     }
 
-    cpu_register_t reg = g_cpu_reg;
+    s_cpu_register_t reg = g_cpu_reg;
 
     printf("rax = %16lx\trbx = %16lx\trcx = %16lx\trdx = %16lx\n",
            reg.rax,

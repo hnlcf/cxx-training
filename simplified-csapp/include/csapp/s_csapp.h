@@ -1,4 +1,4 @@
-#pragma once
+
 
 #ifndef CSAPP_CSAPP_H
 #define CSAPP_CSAPP_H
@@ -14,8 +14,12 @@ extern "C"
 #include <csapp/s_config.h>
 #include <csapp/s_cpu.h>
 #include <csapp/s_instruction.h>
+#include <csapp/s_list.h>
+#include <csapp/s_log.h>
+#include <csapp/s_macros.h>
 #include <csapp/s_memory.h>
 #include <csapp/s_string.h>
+#include <csapp/s_types.h>
 #include <csapp/s_utils.h>
 
 #ifdef __cpluscplus

@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 .cache/
+.xmake/
 
 *.iml
 *.sublime-project
@@ -9,3 +10,4 @@
 
 /build/
 /cmake-build-*/
+/third_party/

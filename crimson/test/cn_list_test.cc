@@ -15,7 +15,7 @@ test_list()
         data = tmp->data;
 
         for (size_t j = 0; j < data.size; j++) {
-            *(data.ptr + j) = (cn_byte)(10 * i + j);
+            data.ptr[j] = static_cast<cn_byte>(10 * i + j);
         }
     }
 
@@ -24,7 +24,7 @@ test_list()
         data = tmp->data;
 
         for (size_t j = 0; j < data.size; j++) {
-            printf("%d, ", *(data.ptr + j));
+            printf("%d, ", static_cast<int8_t>(data.ptr[j]));
         }
         printf("\n");
     }
