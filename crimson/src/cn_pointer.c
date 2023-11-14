@@ -29,9 +29,7 @@ cn_pointer_init(cn_pointer_t *p, cn_usize size)
         return NULL;
     }
 
-    cn_raw_ptr ptr = NULL;
-
-    ptr            = cn_alloc(size);
+    cn_raw_ptr ptr = cn_calloc(size);
     if (ptr != NULL) {
         p->ptr  = ptr;
         p->size = size;

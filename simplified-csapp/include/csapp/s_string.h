@@ -1,5 +1,4 @@
 
-
 #ifndef CSAPP_STRING_H
 #define CSAPP_STRING_H
 
